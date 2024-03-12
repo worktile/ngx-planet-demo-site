@@ -1,0 +1,66 @@
+
+        <h2 id="defineapplication(name,-options)" class="docs-header-link">
+          <span header-link="defineapplication(name,-options)"></span>
+          defineApplication(name, options)
+        </h2>
+      
+        <h3 id="参数" class="docs-header-link">
+          <span header-link="参数"></span>
+          参数
+        </h3>
+      <ul>
+<li>name：string - 必填，子应用名称</li>
+<li>options：BootstrapAppModule | BootstrapOptions - 必填，子应用启动方法</li>
+</ul>
+
+        <h3 id="类型" class="docs-header-link">
+          <span header-link="类型"></span>
+          类型
+        </h3>
+      
+        <h4 id="bootstrapappmodule" class="docs-header-link">
+          <span header-link="bootstrapappmodule"></span>
+          BootstrapAppModule
+        </h4>
+      <ul>
+<li>(portalApp?: PlanetPortalApplication) =&gt; Promise&lt;NgModuleRef<any>&gt;;</li>
+</ul>
+
+        <h4 id="bootstrapoptions" class="docs-header-link">
+          <span header-link="bootstrapoptions"></span>
+          BootstrapOptions
+        </h4>
+      <ul>
+<li>template: string
+<br>必填，根节点模板</li>
+<li>bootstrap: BootstrapAppModule;
+<br>必填，启动方法
+        <h3 id="示例" class="docs-header-link">
+          <span header-link="示例"></span>
+          示例
+        </h3>
+      <pre class="language-ts"><code class="language-ts"><div><span class="token function">defineApplication</span><span class="token punctuation">(</span><span class="token string">'app1'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`&lt;app1-root class="app1-root">&lt;/app1-root>`</span></span><span class="token punctuation">,</span>
+  bootstrap<span class="token punctuation">:</span> <span class="token punctuation">(</span>portalApp<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">platformBrowserDynamic</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+          <span class="token punctuation">{</span>
+              provide<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">,</span>
+              useValue<span class="token punctuation">:</span> portalApp
+          <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          <span class="token punctuation">{</span>
+              provide<span class="token punctuation">:</span> AppRootContext<span class="token punctuation">,</span>
+              useValue<span class="token punctuation">:</span> portalApp<span class="token punctuation">.</span>data<span class="token punctuation">.</span>appRootContext
+          <span class="token punctuation">}</span>
+      <span class="token punctuation">]</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">bootstrapModule</span><span class="token punctuation">(</span>AppModule<span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>appModule <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+              <span class="token keyword">return</span> appModule<span class="token punctuation">;</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span>
+          <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+              console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+              <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+          <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+</li>
+</ul>
