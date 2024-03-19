@@ -1,0 +1,819 @@
+{
+  "navs": [
+    {
+      "id": "guides",
+      "path": "guides",
+      "channelPath": "guides",
+      "title": "指南",
+      "items": [
+        {
+          "id": "intro",
+          "path": "intro",
+          "channelPath": "guides",
+          "title": "介绍",
+          "order": 20,
+          "toc": "content",
+          "headings": [
+            {
+              "id": "什么是微前端",
+              "name": "什么是微前端",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "为什么需要微前端（micro-front-end）",
+              "name": "为什么需要微前端（Micro Front-end）",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "微前端的几种方案对比",
+              "name": "微前端的几种方案对比",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "worktile-的微前端技术选型之路",
+              "name": "Worktile 的微前端技术选型之路",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "使用-angular-打造微前端应用",
+              "name": "使用 Angular 打造微前端应用",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "选择动态加载模块后编译还是加载整个应用",
+              "name": "选择动态加载模块后编译还是加载整个应用",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "应用注册，加载，销毁机制",
+              "name": "应用注册，加载，销毁机制",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "路由",
+              "name": "路由",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "共享全局服务",
+              "name": "共享全局服务",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "应用间通信",
+              "name": "应用间通信",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "应用间组件互相调用",
+              "name": "应用间组件互相调用",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "工程化",
+              "name": "工程化",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "基于-angular-的微前端库-ngx-planet",
+              "name": "基于 Angular 的微前端库 ngx-planet",
+              "level": 2,
+              "type": "h2"
+            }
+          ],
+          "contentPath": "docs/guides/intro.html",
+          "originPath": "docs/guides/intro.md"
+        },
+        {
+          "id": "getting-started",
+          "path": "getting-started",
+          "channelPath": "guides",
+          "title": "快速上手",
+          "order": 30,
+          "toc": "content",
+          "headings": [
+            {
+              "id": "使用-ngx-planet-框架的应用间结构",
+              "name": "使用 ngx-planet 框架的应用间结构",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "主应用",
+              "name": "主应用",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "准备工作",
+              "name": "准备工作",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "安装-ngx-planet",
+              "name": "安装 ngx-planet",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "在主应用中加载-ngxplanetmodule",
+              "name": "在主应用中加载 NgxPlanetModule",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "在主应用中注册子应用",
+              "name": "在主应用中注册子应用",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "在主应用路由中添加子应用路由",
+              "name": "在主应用路由中添加子应用路由",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "子应用",
+              "name": "子应用",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "准备工作",
+              "name": "准备工作",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "安装-ngx-planet",
+              "name": "安装 ngx-planet",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "启动子应用",
+              "name": "启动子应用",
+              "level": 3,
+              "type": "h3"
+            }
+          ],
+          "contentPath": "docs/guides/getting-started.html",
+          "originPath": "docs/guides/getting-started.md"
+        }
+      ],
+      "order": 10
+    },
+    {
+      "id": "api",
+      "path": "api",
+      "channelPath": "api",
+      "title": "API",
+      "items": [
+        {
+          "id": "planet",
+          "path": "planet",
+          "channelPath": "api",
+          "title": "Planet",
+          "order": 10,
+          "toc": "content",
+          "headings": [
+            {
+              "id": "setoptions(options)",
+              "name": "setOptions(options)",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "参数",
+              "name": "参数",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "类型",
+              "name": "类型",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "planetoptions",
+              "name": "PlanetOptions",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "示例",
+              "name": "示例",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "registerapps(apps)",
+              "name": "registerApps(apps)",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "参数",
+              "name": "参数",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "类型",
+              "name": "类型",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "planetapplication",
+              "name": "PlanetApplication",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "示例",
+              "name": "示例",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "registerapp(app)",
+              "name": "registerApp(app)",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "参数",
+              "name": "参数",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "unregisterapp(name)",
+              "name": "unregisterApp(name)",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "参数",
+              "name": "参数",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "getapps()",
+              "name": "getApps()",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "start()",
+              "name": "start()",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "示例",
+              "name": "示例",
+              "level": 3,
+              "type": "h3"
+            }
+          ],
+          "contentPath": "docs/api/planet.html",
+          "originPath": "docs/api/planet.md"
+        },
+        {
+          "id": "defineApplication",
+          "path": "defineapplication",
+          "channelPath": "api",
+          "title": "defineApplication",
+          "order": 20,
+          "toc": "content",
+          "headings": [
+            {
+              "id": "defineapplication(name,-options)",
+              "name": "defineApplication(name, options)",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "参数",
+              "name": "参数",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "类型",
+              "name": "类型",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "bootstrapappmodule",
+              "name": "BootstrapAppModule",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "bootstrapoptions",
+              "name": "BootstrapOptions",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "示例",
+              "name": "示例",
+              "level": 3,
+              "type": "h3"
+            }
+          ],
+          "contentPath": "docs/api/defineApplication.html",
+          "originPath": "docs/api/defineApplication.md"
+        },
+        {
+          "id": "globalEventDispatcher",
+          "path": "globaleventdispatcher",
+          "channelPath": "api",
+          "title": "GlobalEventDispatcher",
+          "order": 30,
+          "toc": "content",
+          "headings": [
+            {
+              "id": "register(components)",
+              "name": "register(components)",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "参数",
+              "name": "参数",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "类型",
+              "name": "类型",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "planetcomponent",
+              "name": "PlanetComponent",
+              "level": 4,
+              "type": "h4"
+            },
+            {
+              "id": "示例",
+              "name": "示例",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "dispatch((name,-payload))",
+              "name": "dispatch((name, payload))",
+              "level": 2,
+              "type": "h2"
+            },
+            {
+              "id": "参数",
+              "name": "参数",
+              "level": 3,
+              "type": "h3"
+            },
+            {
+              "id": "示例",
+              "name": "示例",
+              "level": 3,
+              "type": "h3"
+            }
+          ],
+          "contentPath": "docs/api/globalEventDispatcher.html",
+          "originPath": "docs/api/globalEventDispatcher.md"
+        }
+      ],
+      "order": 20
+    },
+    {
+      "title": "示例",
+      "path": "http://planet.ngnice.com",
+      "isExternal": true
+    },
+    {
+      "title": "GitHub",
+      "path": "https://github.com/worktile/ngx-planet",
+      "isExternal": true
+    },
+    {
+      "title": "更新日志",
+      "path": "https://github.com/worktile/ngx-planet/blob/master/CHANGELOG.md",
+      "isExternal": true
+    }
+  ],
+  "docs": [
+    {
+      "id": "defineApplication",
+      "path": "defineapplication",
+      "channelPath": "api",
+      "title": "defineApplication",
+      "order": 20,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "defineapplication(name,-options)",
+          "name": "defineApplication(name, options)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "参数",
+          "name": "参数",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "类型",
+          "name": "类型",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "bootstrapappmodule",
+          "name": "BootstrapAppModule",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "bootstrapoptions",
+          "name": "BootstrapOptions",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "示例",
+          "name": "示例",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/api/defineApplication.html",
+      "originPath": "docs/api/defineApplication.md"
+    },
+    {
+      "id": "globalEventDispatcher",
+      "path": "globaleventdispatcher",
+      "channelPath": "api",
+      "title": "GlobalEventDispatcher",
+      "order": 30,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "register(components)",
+          "name": "register(components)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "参数",
+          "name": "参数",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "类型",
+          "name": "类型",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "planetcomponent",
+          "name": "PlanetComponent",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "示例",
+          "name": "示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "dispatch((name,-payload))",
+          "name": "dispatch((name, payload))",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "参数",
+          "name": "参数",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "示例",
+          "name": "示例",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/api/globalEventDispatcher.html",
+      "originPath": "docs/api/globalEventDispatcher.md"
+    },
+    {
+      "id": "planet",
+      "path": "planet",
+      "channelPath": "api",
+      "title": "Planet",
+      "order": 10,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "setoptions(options)",
+          "name": "setOptions(options)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "参数",
+          "name": "参数",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "类型",
+          "name": "类型",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "planetoptions",
+          "name": "PlanetOptions",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "示例",
+          "name": "示例",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "registerapps(apps)",
+          "name": "registerApps(apps)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "参数",
+          "name": "参数",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "类型",
+          "name": "类型",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "planetapplication",
+          "name": "PlanetApplication",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "示例",
+          "name": "示例",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "registerapp(app)",
+          "name": "registerApp(app)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "参数",
+          "name": "参数",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "unregisterapp(name)",
+          "name": "unregisterApp(name)",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "参数",
+          "name": "参数",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "getapps()",
+          "name": "getApps()",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "start()",
+          "name": "start()",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "示例",
+          "name": "示例",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/api/planet.html",
+      "originPath": "docs/api/planet.md"
+    },
+    {
+      "id": "getting-started",
+      "path": "getting-started",
+      "channelPath": "guides",
+      "title": "快速上手",
+      "order": 30,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "使用-ngx-planet-框架的应用间结构",
+          "name": "使用 ngx-planet 框架的应用间结构",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "主应用",
+          "name": "主应用",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "准备工作",
+          "name": "准备工作",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "安装-ngx-planet",
+          "name": "安装 ngx-planet",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "在主应用中加载-ngxplanetmodule",
+          "name": "在主应用中加载 NgxPlanetModule",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "在主应用中注册子应用",
+          "name": "在主应用中注册子应用",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "在主应用路由中添加子应用路由",
+          "name": "在主应用路由中添加子应用路由",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "子应用",
+          "name": "子应用",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "准备工作",
+          "name": "准备工作",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "安装-ngx-planet",
+          "name": "安装 ngx-planet",
+          "level": 3,
+          "type": "h3"
+        },
+        {
+          "id": "启动子应用",
+          "name": "启动子应用",
+          "level": 3,
+          "type": "h3"
+        }
+      ],
+      "contentPath": "docs/guides/getting-started.html",
+      "originPath": "docs/guides/getting-started.md"
+    },
+    {
+      "id": "intro",
+      "path": "intro",
+      "channelPath": "guides",
+      "title": "介绍",
+      "order": 20,
+      "toc": "content",
+      "headings": [
+        {
+          "id": "什么是微前端",
+          "name": "什么是微前端",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "为什么需要微前端（micro-front-end）",
+          "name": "为什么需要微前端（Micro Front-end）",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "微前端的几种方案对比",
+          "name": "微前端的几种方案对比",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "worktile-的微前端技术选型之路",
+          "name": "Worktile 的微前端技术选型之路",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "使用-angular-打造微前端应用",
+          "name": "使用 Angular 打造微前端应用",
+          "level": 2,
+          "type": "h2"
+        },
+        {
+          "id": "选择动态加载模块后编译还是加载整个应用",
+          "name": "选择动态加载模块后编译还是加载整个应用",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "应用注册，加载，销毁机制",
+          "name": "应用注册，加载，销毁机制",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "路由",
+          "name": "路由",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "共享全局服务",
+          "name": "共享全局服务",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "应用间通信",
+          "name": "应用间通信",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "应用间组件互相调用",
+          "name": "应用间组件互相调用",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "工程化",
+          "name": "工程化",
+          "level": 4,
+          "type": "h4"
+        },
+        {
+          "id": "基于-angular-的微前端库-ngx-planet",
+          "name": "基于 Angular 的微前端库 ngx-planet",
+          "level": 2,
+          "type": "h2"
+        }
+      ],
+      "contentPath": "docs/guides/intro.html",
+      "originPath": "docs/guides/intro.md"
+    }
+  ]
+}
