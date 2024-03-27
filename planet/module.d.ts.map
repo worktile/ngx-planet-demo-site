@@ -1,0 +1,1 @@
+{"version":3,"file":"module.d.ts","sourceRoot":"","sources":["../../packages/planet/src/module.ts"],"names":[],"mappings":"AAAA,OAAO,EAAY,mBAAmB,EAAE,MAAM,eAAe,CAAC;AAC9D,OAAO,EAAE,iBAAiB,EAAuB,MAAM,gBAAgB,CAAC;;;;;;AAMxE,qBAMa,eAAe;IACxB,MAAM,CAAC,OAAO,CAAC,IAAI,EAAE,iBAAiB,EAAE,GAAG,mBAAmB,CAAC,eAAe,CAAC;yCADtE,eAAe;0CAAf,eAAe;0CAAf,eAAe;CAY3B"}

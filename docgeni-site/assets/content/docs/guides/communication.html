@@ -1,0 +1,127 @@
+<p>对于主从架构的微前端来说，通常全局加载用户信息会在主应用完成，对于子应用来说无需再次获取全局数据，可以直接使用主应用加载后的数据。</p>
+
+        <h2 id="%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E6%9C%8D%E5%8A%A1" class="docs-header-link">
+          <span header-link="%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E6%9C%8D%E5%8A%A1"></span>
+          定义全局服务
+        </h2>
+      <p>比如在主应用有一个<code>AppGlobalContext</code>全局服务存储了当前用户信息<code>me</code>，伪代码如下：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">interface</span> <span class="token class-name">User</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+    logged_at<span class="token punctuation">:</span> Date<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+@<span class="token function">Injectable</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    providedIn<span class="token punctuation">:</span> <span class="token string">'root'</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">AppGlobalContext</span> <span class="token punctuation">{</span>
+    me <span class="token operator">=</span> signal<span class="token operator">&lt;</span>User<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'why520crazy'</span><span class="token punctuation">,</span>
+        logged_at<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">setMe</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>me<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+            name<span class="token punctuation">:</span> <span class="token string">'why520crazy'</span><span class="token punctuation">,</span>
+            logged_at<span class="token punctuation">:</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+<div class="dg-paragraph"><alert>注意：实际应用中会在应用初始化时调用 REST API 获取当前用户信息，此处简化为同步，只是为了示意好理解。</alert></div>
+
+        <h2 id="%E4%B8%BB%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE" class="docs-header-link">
+          <span header-link="%E4%B8%BB%E5%BA%94%E7%94%A8%E8%AE%BE%E7%BD%AE%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE"></span>
+          主应用设置共享数据
+        </h2>
+      <p>在主应用中通过<code>planet.setPortalAppData</code>函数设置主应用的共享数据，把主应用的<code>AppGlobalContext</code>实例赋值给<code>appGlobalContext</code>:</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">setPortalAppData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    appGlobalContext<span class="token punctuation">:</span> <span class="token function">inject</span><span class="token punctuation">(</span>AppGlobalContext<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="%E5%AD%90%E5%BA%94%E7%94%A8%E8%8E%B7%E5%8F%96%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE" class="docs-header-link">
+          <span header-link="%E5%AD%90%E5%BA%94%E7%94%A8%E8%8E%B7%E5%8F%96%E5%85%B1%E4%BA%AB%E6%95%B0%E6%8D%AE"></span>
+          子应用获取共享数据
+        </h2>
+      <p>子应用定义应用时 <a href="api/define-application">defineApplication</a> 启动函数的参数会把<code>PlanetPortalApplication</code>传递给子应用，建议子应用通过 Provider 设置到子应用的根注入器中：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token function">defineApplication</span><span class="token punctuation">(</span><span class="token string">'standalone-app'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`&lt;standalone-app-root>&lt;/standalone-app-root>`</span></span><span class="token punctuation">,</span>
+  bootstrap<span class="token punctuation">:</span> <span class="token punctuation">(</span>portalApp<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppRootComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+          providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+              <span class="token punctuation">{</span>
+                  provide<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">,</span>
+                  useValue<span class="token punctuation">:</span> portalApp
+              <span class="token punctuation">}</span>
+          <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+<p>这样子应用在任何组件和服务中都可以注入<code>PlanetPortalApplication</code>，然后通过<code>data</code>属性获取到主应用设置的共享数据，那么即获取到了主应用的<code>appGlobalContext</code></p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">HomeComponent</span> <span class="token punctuation">{</span>
+    planetPortalApplication <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>PlanetPortalApplication<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    appGlobalContext <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>planetPortalApplication<span class="token punctuation">.</span>data<span class="token punctuation">.</span>appGlobalContext<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E5%8D%95%E7%8B%AC%E6%8F%90%E4%BE%9B-appglobalcontext" class="docs-header-link">
+          <span header-link="%E5%8D%95%E7%8B%AC%E6%8F%90%E4%BE%9B-appglobalcontext"></span>
+          单独提供 AppGlobalContext
+        </h2>
+      <p>通过<code>planetPortalApplication.data.appGlobalContext</code>获取数据比较繁琐，为了保持子应用和主应用使用<code>AppGlobalContext</code>的一致性，我们可以单独给<code>AppGlobalContext</code>设置<code>Provider</code>：</p>
+<pre class="language-ts"><code class="language-ts"><div> providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>
+    provide<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">,</span>
+    useValue<span class="token punctuation">:</span> portalApp
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>
+    provide<span class="token punctuation">:</span> AppGlobalContext<span class="token punctuation">,</span>
+    useValue<span class="token punctuation">:</span> portalApp<span class="token punctuation">.</span>data<span class="token punctuation">.</span>appGlobalContext
+  <span class="token punctuation">}</span>
+<span class="token punctuation">]</span></div></code></pre>
+<p>这样子应用在任何组件和服务中都可以注入<code>AppGlobalContext</code>使用：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">HomeComponent</span> <span class="token punctuation">{</span>
+    appGlobalContext <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>AppGlobalContext<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+<div class="dg-paragraph"><alert>注意：如果主应用和子应用是独立仓储，那么需要把<code>AppGlobalContext</code>抽取到业务基础库中，方便做类型复用。</alert></div>
+
+        <h2 id="%E5%BA%94%E7%94%A8%E9%80%9A%E4%BF%A1" class="docs-header-link">
+          <span header-link="%E5%BA%94%E7%94%A8%E9%80%9A%E4%BF%A1"></span>
+          应用通信
+        </h2>
+      <p>在实际的应用中，会经常需要主子应用之间互相通信，为了简化使用，Planet 内置了<code>GlobalEventDispatcher</code>服务实现了应用间通信，比如要在 App1 中打开 App2 的用户详情页。</p>
+
+        <h3 id="%E8%AE%A2%E9%98%85%E4%BA%8B%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E8%AE%A2%E9%98%85%E4%BA%8B%E4%BB%B6"></span>
+          订阅事件
+        </h3>
+      <p>首先需要在 App2 启动根组件或者模块中通过<code>register</code>注册一个<code>open-app2-user-detail</code>事件:</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GlobalEventDispatcher <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@worktile/planet"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span>
+  globalEventDispatcher <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>GlobalEventDispatcher<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token keyword">this</span><span class="token punctuation">.</span>globalEventDispatcher<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'open-app2-user-detail'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>event <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token comment" spellcheck="true">// ThyDialog.open(event.payload.uid)</span>
+     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h3 id="%E6%B4%BE%E5%8F%91%E4%BA%8B%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E6%B4%BE%E5%8F%91%E4%BA%8B%E4%BB%B6"></span>
+          派发事件
+        </h3>
+      <p>在 App1 中通过<code>dispatch</code>派发一个事件：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GlobalEventDispatcher <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@worktile/planet"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">App1Component</span> <span class="token punctuation">{</span>
+  globalEventDispatcher <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>GlobalEventDispatcher<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">openUserOfApp2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>globalEventDispatcher<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'open-app2-user-detail'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+        uid<span class="token punctuation">:</span> <span class="token string">"123"</span>
+     <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+<p>更多 API 参数参考：<a href="api/global-event-dispatcher">GlobalEventDispatcher</a></p>

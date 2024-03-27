@@ -1,0 +1,36 @@
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> GlobalEventDispatcher <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@worktile/planet"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SomeClass</span> <span class="token punctuation">{</span>
+  globalEventDispatcher <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>GlobalEventDispatcher<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="register(eventname)" class="docs-header-link">
+          <span header-link="register(eventname)"></span>
+          register(eventName)
+        </h2>
+      <p>注册事件并订阅，当其他应用派发事件时会执行回调函数。</p>
+<ul>
+<li>参数 <code>eventName: string</code> - 必填，注册的事件名称</li>
+<li>返回参数 <code>Observable&lt;T&gt;</code></li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div> <span class="token keyword">this</span><span class="token punctuation">.</span>globalEventDispatcher<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token string">'open-a-detail'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span>event <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// do somethings</span>
+ <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="dispatch(name,-payload)" class="docs-header-link">
+          <span header-link="dispatch(name,-payload)"></span>
+          dispatch(name, payload)
+        </h2>
+      <p>派发事件给所有注册且订阅相同事件名的应用。</p>
+<ul>
+<li>参数<ul>
+<li><code>name: string</code> - 必填，唯一的事件名称</li>
+<li><code>payload: T</code> - 可选，事件附带数据</li>
+</ul>
+</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>globalEventDispatcher<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'open-a-detail'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  <span class="token keyword">from</span><span class="token punctuation">:</span> <span class="token string">"app2"</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>

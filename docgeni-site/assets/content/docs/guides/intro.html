@@ -1,0 +1,107 @@
+<p>Planet 是一个基于 Angular 的<a target="_blank" href="https://micro-frontends.org/">微前端</a>框架，旨在帮助开发者简单、快速的构建一个生产可用且稳定可靠的微前端架构应用。Planet 是 <a target="_blank" href="https://pingcode.com/">PingCode</a> 团队于 2019 年自研的 Angular 微前端框架，主要用于构建稳定多产品的企业级 SaaS 应用。</p>
+
+        <h2 id="%E7%89%B9%E6%80%A7" class="docs-header-link">
+          <span header-link="%E7%89%B9%E6%80%A7"></span>
+          特性
+        </h2>
+      <ul>
+<li>同时渲染多个应用</li>
+<li>支持两种模式，并存和默认模式，默认模式下，应用切换会自动销毁，并存模式下不会销毁会隐藏</li>
+<li>支持应用预加载</li>
+<li>支持样式和沙箱隔离</li>
+<li>内置应用间通信功能</li>
+<li>支持跨应用的组件渲染</li>
+<li>详细以及完备的示例，包含路由配置、延迟加载等等特性使用</li>
+</ul>
+
+        <h2 id="%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E5%89%8D%E7%AB%AF" class="docs-header-link">
+          <span header-link="%E4%BB%80%E4%B9%88%E6%98%AF%E5%BE%AE%E5%89%8D%E7%AB%AF"></span>
+          什么是微前端
+        </h2>
+      <p>微前端最早提出这个概念的是 ThoughtWork 的技术雷达，主要是把微服务的概念引入到了前端，让前端的多个模块或者应用解耦，做到让前端的子应用独立仓储，独立运行，独立部署。
+以下是微前端相关文章：</p>
+<ul>
+<li><a target="_blank" href="https://micro-frontends.org/">Micro Frontends</a></li>
+<li><a target="_blank" href="https://martinfowler.com/articles/micro-frontends.html">Micro Frontends from martinfowler.com</a></li>
+<li><a target="_blank" href="https://zhuanlan.zhihu.com/p/93813936">使用 Angular 打造微前端架构的 ToB 企业级应用</a></li>
+</ul>
+
+        <h2 id="%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BE%AE%E5%89%8D%E7%AB%AF" class="docs-header-link">
+          <span header-link="%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BE%AE%E5%89%8D%E7%AB%AF"></span>
+          为什么要微前端
+        </h2>
+      <ol>
+<li>系统模块增多，单体应用变得臃肿，开发效率低下，构建速度变慢；</li>
+<li>人员扩大，需要多个前端团队独立开发，独立部署，如果都在一个仓储中开发会带来一些列问题；</li>
+<li>解决遗留系统，新模块需要使用最新的框架和技术，旧系统还继续使用。</li>
+</ol>
+
+        <h2 id="%E5%BE%AE%E5%89%8D%E7%AB%AF%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88" class="docs-header-link">
+          <span header-link="%E5%BE%AE%E5%89%8D%E7%AB%AF%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%A1%88"></span>
+          微前端的几种方案
+        </h2>
+      <table>
+<thead>
+<tr>
+<th>方式</th>
+<th>描述</th>
+<th>优点</th>
+<th>缺点</th>
+<th>难度系数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>路由转发</td>
+<td>路由转发严格意义上不属于微前端，多个子模块之间共享一个导航即可</td>
+<td>简单，易实现</td>
+<td>体验不好，切换应用整个页面刷新</td>
+<td>🌟</td>
+</tr>
+<tr>
+<td>嵌套 iframe</td>
+<td>每个子应用一个 iframe 嵌套</td>
+<td>应用之间自带沙箱隔离</td>
+<td>重复加载脚本和样式</td>
+<td>🌟🌟</td>
+</tr>
+<tr>
+<td>构建时组合</td>
+<td>独立仓储，独立开发，构建时整体打包，合并应用</td>
+<td>方便依赖管理，抽取公共模块</td>
+<td>无法独立部署，技术栈，依赖版本必须统一</td>
+<td>🌟🌟</td>
+</tr>
+<tr>
+<td>运行时组合</td>
+<td>每个子应用独立构建，运行时由主应用负责应用管理，加载，启动，卸载，通信机制</td>
+<td>良好的体验，真正的独立开发，独立部署</td>
+<td>复杂，需要设计加载，通信机制，无法做到彻底隔离，需要解决依赖冲突，样式冲突问题</td>
+<td>🌟🌟🌟</td>
+</tr>
+<tr>
+<td>Web Components</td>
+<td>每个子应用需要使用 Web Components 技术编写组件或者使用框架生成</td>
+<td>面向未来</td>
+<td>不成熟，需要踩坑</td>
+<td>🌟🌟🌟</td>
+</tr>
+</tbody></table>
+<br />
+
+<p>Planet 采用的是 <code>运行时组合</code> 方案。</p>
+
+        <h2 id="%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%93%E9%80%A0-planet" class="docs-header-link">
+          <span header-link="%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%89%93%E9%80%A0-planet"></span>
+          为什么要打造 Planet
+        </h2>
+      <p>2018 年市面上的微前端解决方案并不多，关注度和成熟度最高的应该就是 <a target="_blank" href="https://single-spa.js.org/">single-spa</a>，我们在做技术选型的时候首要考虑的就是 <code>single-spa</code> 和 <code>mooa</code>, <code>single-spa</code> 成熟度应该最高，示例文档很完善，<code>mooa</code> 为 Angular 打造的主从结构的微前端框架，和我们的业务和技术符合度最高，研究一段时间后最终我们还是选择了自研一套符合自己的微前端框架，主要是因为我们的业务有以下几个需求在以上的框架中不满足或者说很难满足, 甚至需要高度定制。</p>
+<ul>
+<li>产品是主从结构的，Portal 包含左侧导航，消息通知以及子应用管理</li>
+<li>需要在多个子应用之间通信，主应用或者某个子应用需要打开其他子应用的详情页或者路由跳转</li>
+<li>子应用 A 的某个页面中需要加载子应用 B 的某个组件</li>
+<li>支持并存模式，即当前显示的虽然是 B 应用，但是要保证可以被 A 应用正常调用，如果销毁了就无法被其他应用调用</li>
+<li>需要提供预加载功能</li>
+<li>子应用的样式需要独立加载</li>
+<li>不管是在主应用还是子应用，路由体验要和单体应用一致</li>
+</ul>
+<p>尝试了 <code>single-spa</code> 和 <code>mooa</code> 的示例，主要是一些简单的渲染展示，一旦需要满足以上一些特性还是需要修改很多东西，<code>mooa</code> 实现应该还是比较全面也比较适合我们的，但是它的示例中路由有一些问题，且并未在生产环境使用过，最终决定自研一套符合 Angular 框架的微前端框架。</p>

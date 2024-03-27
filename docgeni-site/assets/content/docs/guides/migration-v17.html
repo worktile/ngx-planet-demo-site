@@ -1,0 +1,35 @@
+
+        <h2 id="%E5%BC%80%E5%A7%8B%E4%B9%8B%E5%89%8D" class="docs-header-link">
+          <span header-link="%E5%BC%80%E5%A7%8B%E4%B9%8B%E5%89%8D"></span>
+          开始之前
+        </h2>
+      <ul>
+<li>首先确保你 <code>Node.js &gt;= 18.10.0</code></li>
+<li>创建新的分支进行升级，或者把当前分支备份</li>
+</ul>
+
+        <h2 id="%E5%BC%80%E5%A7%8B%E5%8D%87%E7%BA%A7" class="docs-header-link">
+          <span header-link="%E5%BC%80%E5%A7%8B%E5%8D%87%E7%BA%A7"></span>
+          开始升级
+        </h2>
+      <ul>
+<li>执行<code>ng update @worktile/planet</code>命令自动升级</li>
+<li>此版本新增了<code>entry</code>参数代替之前的<code>manifest</code>, <code>scripts</code>, <code>styles</code>和<code>resourcePathPrefix</code></li>
+</ul>
+<pre><code><div>{
+<span class="token operator">-</span>  manifest<span class="token punctuation">:</span> <span class="token string">"static/app1/assets-manifest.json"</span><span class="token punctuation">,</span>
+<span class="token operator">-</span>  scripts<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"main.js"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token operator">-</span>  styles<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"styles.css"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token operator">-</span>  resourcePathPrefix<span class="token punctuation">:</span> <span class="token string">"static/app1"</span>
+<span class="token operator">+</span>  entry<span class="token punctuation">:</span> {
+<span class="token operator">+</span>    manifest<span class="token punctuation">:</span> <span class="token string">"static/app1/assets-manifest.json"</span><span class="token punctuation">,</span>
+<span class="token operator">+</span>    scripts<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"main.js"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token operator">+</span>    styles<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">"styles.css"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token operator">+</span>    bashPath<span class="token punctuation">:</span> <span class="token string">"static/app1"</span>
+<span class="token operator">+</span>  }
+}</div></code></pre><ul>
+<li>在 17 版本中，manifest 除了可以配置<code>json</code>文件外还可以配置<code>index.html</code>，这样就不用单独使用<code>webpack-assets-manifest</code>插件生成 manifest JSON 文件，同时支持字符串简化配置</li>
+</ul>
+<pre><code><div>{
+  entry<span class="token punctuation">:</span> <span class="token string">"static/app1/index.html"</span>
+}</div></code></pre><p>这样会加载<code>index.html</code>解析所有的 scripts 和 styles 加载。</p>
