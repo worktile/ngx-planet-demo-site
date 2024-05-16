@@ -1,0 +1,203 @@
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> Planet <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@worktile/planet"</span><span class="token punctuation">;</span>
+
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span>
+  planet <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>Planet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="setoptions(options)" class="docs-header-link">
+          <span header-link="setoptions(options)"></span>
+          setOptions(options)
+        </h2>
+      <ul>
+<li>参数<ul>
+<li>options - <code>Partial&lt;PlanetOptions&gt;</code> - 必填</li>
+</ul>
+</li>
+<li>类型<code>PlanetOptions</code><ul>
+<li><code>errorHandler: (error: Error) =&gt; void;</code> - 必填，错误处理函数</li>
+<li><code>switchMode?: SwitchModes;</code> - 可选，切换模式</li>
+</ul>
+</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">setOptions</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  switchMode<span class="token punctuation">:</span> SwitchModes<span class="token punctuation">.</span>coexist<span class="token punctuation">,</span>
+  errorHandler<span class="token punctuation">:</span> error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`Failed to load resource, error:`</span></span><span class="token punctuation">,</span> error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="registerapp(app)" class="docs-header-link">
+          <span header-link="registerapp(app)"></span>
+          registerApp(app)
+        </h2>
+      <p>注册子应用的基础配置信息。当浏览器 url 发生变化时，会自动检查是否匹配到子应用注册的<code>routerPathPrefix</code>，匹配成功的应用将会被自动激活。</p>
+<ul>
+<li>参数<ul>
+<li>app - <code>PlanetApplication&lt;TExtra&gt;</code> - 必填，子应用的注册信息</li>
+</ul>
+</li>
+<li>类型 <code>PlanetApplication&lt;TExtra&gt;</code><ul>
+<li><code>name: string</code> - 必填，子应用的名称</li>
+<li><code>hostParent: string | HTMLElement</code> - 必填，子应用根组件渲染的父容器元素，支持选择器和 HTMLElement;</li>
+<li><code>routerPathPrefix: string | RegExp</code> - 必填，子应用路由路径前缀，根据此配置匹配应用</li>
+<li><code>hostClass?: string | string[]</code> - 可选，宿主元素的 Class，也就是在子应用启动组件上追加的样式</li>
+<li><code>preload?: boolean</code> - 可选，是否启用预加载，启动后刷新页面等当前页面的应用渲染完毕后预加载子应用</li>
+<li><code>switchMode?: SwitchModes</code> - 可选，切换子应用的模式，默认切换会销毁，设置并存模式(coexist)后只会隐藏</li>
+<li><code>stylePrefix?: string</code> - 可选，样式前缀</li>
+<li><code>entry: string | PlanetApplicationEntry</code> - 可选，子应用的入口配置 (&gt;=17.0.0)<ul>
+<li>当配置为字符串时为子应用的入口 html 地址，例如：<code>http://127.0.0.1:3001/index.html</code></li>
+<li>当配置为对象时<code>manifest</code>为子应用的入口 html 或者 manifest.json 地址，取代如下废弃的四个配置</li>
+<li><code>entry.manifest: string</code> -  可选，manifest.json 或者 index.html 文件路径地址</li>
+<li><code>entry.scripts?: string[]</code> - 可选，脚本静态资源文件</li>
+<li><code>entry.styles?: string[]</code> - 可选，样式静态资源文件</li>
+<li><code>entry.basePath?: string[]</code>  - 可选，脚本和样式文件路径前缀，多个脚本可以避免重复写同样的前缀，此配置对于 manifest 不生效，主要是因为 manifest 和脚本样式资源文件在生产环境下一般地址不同，manifest 通常存放在服务器上，脚本样式资源文件存在于 CDN 上</li>
+</ul>
+</li>
+<li>[<code>废弃</code>]<code>resourcePathPrefix?: string</code> - 可选，脚本和样式文件路径前缀，多个脚本可以避免重复写同样的前缀</li>
+<li>[<code>废弃</code>]<code>styles?: string[]</code> - 可选，样式静态资源文件</li>
+<li>[<code>废弃</code>]<code>scripts?: string[]</code> - 可选，脚本静态资源文件</li>
+<li>[<code>废弃</code>]<code>manifest?: string;</code> - 可选，manifest.json 文件路径地址，当设置了路径后会先加载这个文件，然后根据 scripts 和 styles 文件名去找到匹配的文件，因为生产环境的静态资文件是 hash 之后的命名，需要动态获取</li>
+<li><code>loadSerial?: boolean</code> - 可选，是否串行加载脚本静态资源</li>
+<li><code>sandbox?: boolean</code> - 可选，是否启用沙箱隔离</li>
+<li><code>themeStylesPath?: string</code> - 可选，皮肤样式的路径</li>
+<li><code>extra: TExtra</code> - 可选，附加数据，主要应用于业务，比如图标，子应用的颜色，显示名等个性化配置</li>
+</ul>
+</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">registerApp</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+    hostParent<span class="token punctuation">:</span> <span class="token string">'#app-host-container'</span><span class="token punctuation">,</span>
+    routerPathPrefix<span class="token punctuation">:</span> <span class="token string">'/app1'</span><span class="token punctuation">,</span>
+    entry<span class="token punctuation">:</span> <span class="token string">'http://127.0.0.1:3001/index.html'</span><span class="token punctuation">,</span>
+    switchMode<span class="token punctuation">:</span> SwitchModes<span class="token punctuation">.</span>coexist<span class="token punctuation">,</span>
+    preload<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+    extra<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'应用1'</span><span class="token punctuation">,</span>
+        color<span class="token punctuation">:</span> <span class="token string">'#ffa415'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="registerapps(apps)" class="docs-header-link">
+          <span header-link="registerapps(apps)"></span>
+          registerApps(apps)
+        </h2>
+      <p>注册多个子应用，和<code>registerApp</code>不同的是传递数组。</p>
+<ul>
+<li>参数<ul>
+<li>apps - <code>PlanetApplication&lt;TExtra&gt;[]</code> - 必填，子应用的注册信息</li>
+</ul>
+</li>
+<li>类型<ul>
+<li><code>PlanetApplication[]</code> - 必填，参考<code>PlanetApplication&lt;TExtra&gt;</code></li>
+</ul>
+</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">registerApps</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+        hostParent<span class="token punctuation">:</span> <span class="token string">'#app-host-container'</span><span class="token punctuation">,</span>
+        routerPathPrefix<span class="token punctuation">:</span> <span class="token string">'/app1'</span><span class="token punctuation">,</span>
+        entry<span class="token punctuation">:</span> <span class="token string">'http://127.0.0.1:3001/index.html'</span><span class="token punctuation">,</span>
+        switchMode<span class="token punctuation">:</span> SwitchModes<span class="token punctuation">.</span>coexist<span class="token punctuation">,</span>
+        preload<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+        extra<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            name<span class="token punctuation">:</span> <span class="token string">'应用1'</span><span class="token punctuation">,</span>
+            color<span class="token punctuation">:</span> <span class="token string">'#ffa415'</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'app2'</span><span class="token punctuation">,</span>
+        hostParent<span class="token punctuation">:</span> <span class="token string">'#app-host-container'</span><span class="token punctuation">,</span>
+        routerPathPrefix<span class="token punctuation">:</span> <span class="token string">'/app2'</span><span class="token punctuation">,</span>
+        entry<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            basePath<span class="token punctuation">:</span> <span class="token string">'http://127.0.0.1:3002'</span><span class="token punctuation">,</span>
+            manifest<span class="token punctuation">:</span> <span class="token string">'http://127.0.0.1:3002/index.html'</span><span class="token punctuation">,</span>
+            scripts<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'main.js'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            styles<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'main.css'</span><span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        switchMode<span class="token punctuation">:</span> SwitchModes<span class="token punctuation">.</span>coexist<span class="token punctuation">,</span>
+        preload<span class="token punctuation">:</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+        extra<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            name<span class="token punctuation">:</span> <span class="token string">'应用2'</span><span class="token punctuation">,</span>
+            color<span class="token punctuation">:</span> <span class="token string">'#ffa415'</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="unregisterapp(name)" class="docs-header-link">
+          <span header-link="unregisterapp(name)"></span>
+          unregisterApp(name)
+        </h2>
+      <p>取消注册子应用。</p>
+<ul>
+<li>参数 <code>name - string</code> - 必填，子应用名称</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">unregisterApp</span><span class="token punctuation">(</span><span class="token string">"app1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="start()" class="docs-header-link">
+          <span header-link="start()"></span>
+          start()
+        </h2>
+      <p>启动微前端框架，启动后会监听路由变化，根据当前 URL 在已注册的子应用中查找匹配的路由前缀，匹配成功后加载子应用的入口文件，解析脚本和样式加载并启动应用</p>
+<ul>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="setportalappdata(data)" class="docs-header-link">
+          <span header-link="setportalappdata(data)"></span>
+          setPortalAppData(data)
+        </h2>
+      <p>设置主应用携带数据，方便传递给子应用，一般用于主子应用数据共享。</p>
+<ul>
+<li>参数 <code>data: T</code> - 必填，主应用数据</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">setPortalAppData</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+ appRootContext<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>appRootContext
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="getapps()" class="docs-header-link">
+          <span header-link="getapps()"></span>
+          getApps()
+        </h2>
+      <p>获取所有注册的子应用列表。</p>
+<ul>
+<li>返回参数<ul>
+<li><code>PlanetApplication&lt;TExtra&gt;[]</code> 注册的子应用信息</li>
+</ul>
+</li>
+</ul>
+
+        <h2 id="loading" class="docs-header-link">
+          <span header-link="loading"></span>
+          loading
+        </h2>
+      <p>是否有子应用在加载中</p>
+<ul>
+<li>类型：Signal<boolean></li>
+</ul>
+
+        <h2 id="appstatuschange" class="docs-header-link">
+          <span header-link="appstatuschange"></span>
+          appStatusChange
+        </h2>
+      <p>子应用状态修改事件</p>
+<ul>
+<li>类型：<code>Observable&lt;AppStatusChangeEvent&gt;</code></li>
+<li>类型：<code>AppStatusChangeEvent</code><ul>
+<li><code>app: PlanetApplication</code> 子应用</li>
+<li><code>status: ApplicationStatus</code> 子应用的状态</li>
+</ul>
+</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span>appStatusChange<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  next<span class="token punctuation">:</span> <span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// do somethings</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>

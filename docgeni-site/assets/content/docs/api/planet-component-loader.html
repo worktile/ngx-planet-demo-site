@@ -1,0 +1,59 @@
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> PlanetComponentLoader <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@worktile/planet"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">SomeClass</span> <span class="token punctuation">{</span>
+  planetComponentLoader <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>PlanetComponentLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="register(components)" class="docs-header-link">
+          <span header-link="register(components)"></span>
+          register(components)
+        </h2>
+      <p>注册组件，注册后的组件可在其他子应用中渲染</p>
+<ul>
+<li>参数<ul>
+<li>components - PlanetComponent | PlanetComponent[] | Type<T> | Type<T>[] - 必填，注册的组件</li>
+</ul>
+</li>
+<li>类型 <code>PlanetComponent</code><ul>
+<li><code>name: string</code> - 必填，组件名称</li>
+<li><code>component: Type&lt;T&gt;</code> - 必填，组件类</li>
+</ul>
+</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planetComponentLoader<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>ProjectsComponent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// =</span>
+<span class="token keyword">this</span><span class="token punctuation">.</span>planetComponentLoader<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">"project-list"</span><span class="token punctuation">,</span>
+  component<span class="token punctuation">:</span> ProjectsComponent
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">this</span><span class="token punctuation">.</span>planetComponentLoader<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span><span class="token punctuation">[</span>ProjectsComponent<span class="token punctuation">,</span> ProjectDetailComponent<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="load(name,-componentname,-config)" class="docs-header-link">
+          <span header-link="load(name,-componentname,-config)"></span>
+          load(name, componentName, config)
+        </h2>
+      <p>渲染其他应用中注册过的组件。</p>
+<ul>
+<li>参数<ul>
+<li><code>name: string</code> - 必填，加载组件所在的应用名称，例如：&quot;app1&quot;</li>
+<li><code>componentName: string</code> - 必填，加载组件的名称</li>
+<li><code>config: PlantComponentConfig&lt;TData&gt;</code> - 必填，组件参数</li>
+</ul>
+</li>
+<li>类型 <code>PlantComponentConfig</code><ul>
+<li><code>container: HTMLElement | ElementRef&lt;any&gt; | Comment</code> - 必填，渲染组件的容器</li>
+<li><code>hostClass?: string</code> - 可选，渲染组件的宿主样式类</li>
+<li><code>initialState: TData</code> - 可选，渲染组件的初始化状态</li>
+<li><code>projectableNodes: (Node[] | TemplateRef&lt;any&gt;)[]</code> - 可选，渲染组件的投影元素，支持 Dom 节点二维数组和 TemplateRef 数组，数组的第一个元素为渲染组件中的第一个 ng-content</li>
+</ul>
+</li>
+<li>示例</li>
+</ul>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">this</span><span class="token punctuation">.</span>planetComponentLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">"app1"</span><span class="token punctuation">,</span> <span class="token string">"project-list"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  container<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>elementRef<span class="token punctuation">,</span>
+  initialState<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    uid<span class="token punctuation">:</span> <span class="token string">"xxx"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>

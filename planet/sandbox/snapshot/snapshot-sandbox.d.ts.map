@@ -1,0 +1,1 @@
+{"version":3,"file":"snapshot-sandbox.d.ts","sourceRoot":"","sources":["../../../../packages/planet/src/sandbox/snapshot/snapshot-sandbox.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,cAAc,EAAE,MAAM,YAAY,CAAC;AAErD,qBAAa,eAAgB,SAAQ,OAAO;IAE7B,GAAG,EAAE,MAAM;IACF,OAAO,EAAE,cAAc;gBADhC,GAAG,EAAE,MAAM,EACF,OAAO,EAAE,cAAc;IAM3C,KAAK;IAEL,OAAO;CACV"}
