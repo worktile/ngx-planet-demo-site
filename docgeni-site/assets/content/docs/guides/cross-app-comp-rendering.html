@@ -1,0 +1,69 @@
+<p>跨应用渲染主要是子应用 A 的某个组件可以在其他应用的某个元素中渲染并展示，Planet 提供了<code>PlanetComponentLoader</code>服务和<code>planetComponentOutlet</code>指令实现跨应用的组件渲染。</p>
+
+        <h2 id="%E6%B3%A8%E5%86%8C%E7%BB%84%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E6%B3%A8%E5%86%8C%E7%BB%84%E4%BB%B6"></span>
+          注册组件
+        </h2>
+      <p>在 App1 子应用的根组件或者根模块注册可以被其他应用渲染的组件：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> PlanetComponentLoader <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"@worktile/planet"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span>
+  planetComponentLoader <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>PlanetComponentLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+   <span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>planetComponentLoader<span class="token punctuation">.</span><span class="token function">register</span><span class="token punctuation">(</span>ProjectsComponent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+
+        <h2 id="%E6%B8%B2%E6%9F%93%E7%BB%84%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E6%B8%B2%E6%9F%93%E7%BB%84%E4%BB%B6"></span>
+          渲染组件
+        </h2>
+      <p>在其他应用，比如 App2 中通过<code>planetComponentLoader.load</code>渲染 App1 的<code>ProjectsComponent</code>:</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">const</span> <span class="token keyword">this</span><span class="token punctuation">.</span>planetComponentLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">"app1"</span><span class="token punctuation">,</span> <span class="token string">"app1-project-list"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+  container<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>elementRef<span class="token punctuation">,</span>
+  initialState<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    term<span class="token punctuation">:</span> <span class="token string">"xxx"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">export</span> <span class="token keyword">class</span> <span class="token class-name">OneComponent</span> <span class="token punctuation">{</span>
+    <span class="token keyword">private</span> componentRef<span class="token punctuation">:</span> PlanetComponentRef<span class="token punctuation">;</span>
+    
+    <span class="token keyword">private</span> planetComponentLoader <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>PlanetComponentLoader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">loadProjects</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>planetComponentLoader<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span><span class="token string">'app1'</span><span class="token punctuation">,</span> <span class="token string">'app1-project-list'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+            container<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>elementRef<span class="token punctuation">,</span>
+            initialState<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+              term<span class="token punctuation">:</span> <span class="token string">'x'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token punctuation">(</span>componentRef<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span> 
+            <span class="token keyword">this</span><span class="token punctuation">.</span>componentRef <span class="token operator">=</span> componentRef<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token function">ngOnDestroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+       <span class="token keyword">this</span><span class="token punctuation">.</span>componentRef<span class="token operator">?</span><span class="token punctuation">.</span><span class="token function">dispose</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div></code></pre>
+<p>这里的第二个参数为组件的选择器，container 为组件渲染的容器元素，API 更多详情参考 <a href="api/planet-component-loader">PlanetComponentLoader</a>。</p>
+<div class="dg-paragraph"><alert>注意：跨应用渲染组件后在当前组件销毁时一定要记得调用 dispose 函数销毁已经渲染的组件，否则会有性能泄露。</alert></div>
+
+        <h2 id="%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E6%B8%B2%E6%9F%93%E7%BB%84%E4%BB%B6" class="docs-header-link">
+          <span header-link="%E9%80%9A%E8%BF%87%E6%8C%87%E4%BB%A4%E6%B8%B2%E6%9F%93%E7%BB%84%E4%BB%B6"></span>
+          通过指令渲染组件
+        </h2>
+      <div class="dg-paragraph"><code>planetComponentOutlet</code>是 Planet 提供跨应用渲染的结构性指令，无需通过<code>PlanetComponentLoader</code>手动渲染和销毁。</div>
+<pre class="language-html"><code class="language-html"><div><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-container</span> <span class="token attr-name">*planetComponentOutlet</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">'</span>app1-project-list<span class="token punctuation">'</span>; app: <span class="token punctuation">'</span>app1<span class="token punctuation">'</span>; initialState: { term: <span class="token punctuation">'</span>x<span class="token punctuation">'</span> }<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-container</span><span class="token punctuation">></span></span>
+
+// or 
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ng-container</span> <span class="token attr-name">planetComponentOutlet</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app1-project-list<span class="token punctuation">"</span></span>
+              <span class="token attr-name">planetComponentOutletApp</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app1<span class="token punctuation">"</span></span>
+              <span class="token attr-name">[planetComponentOutletInitialState]</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>{ term: <span class="token punctuation">'</span>x<span class="token punctuation">'</span> }<span class="token punctuation">"</span></span>
+              <span class="token attr-name">(planetComponentLoaded)</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>planetComponentLoaded($event)<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ng-container</span><span class="token punctuation">></span></span></div></code></pre>
+<div class="dg-paragraph"><alert>不管是通过 PlanetComponentLoader 服务还是 planetComponentOutlet 指令，子应用渲染主应用的组件 app 传递固定字符串 portal 即可。</alert></div>

@@ -1,0 +1,187 @@
+<p>Planet 是一个主从架构下的微前端框架，主应用又可以叫宿主应用，我们称之为<code>Portal</code>，子应用（Sub App）又叫微应用（Micro App）。</p>
+<ul>
+<li>主应用: 负责注册、加载、启动、卸载微应用等所有管理工作</li>
+<li>子应用: 子应用被主应用加载后启动</li>
+</ul>
+
+        <h2 id="%E4%B8%BB%E5%BA%94%E7%94%A8" class="docs-header-link">
+          <span header-link="%E4%B8%BB%E5%BA%94%E7%94%A8"></span>
+          主应用
+        </h2>
+      <p>主应用必须是 Angular 应用（可以通过 <a target="_blank" href="https://angular.cn/cli">https://angular.cn/cli</a> 快速创建一个主应用）</p>
+
+        <h3 id="%E5%AE%89%E8%A3%85%E5%8C%85" class="docs-header-link">
+          <span header-link="%E5%AE%89%E8%A3%85%E5%8C%85"></span>
+          安装包
+        </h3>
+      <pre class="language-bash"><code class="language-bash"><div>$ <span class="token function">npm</span> i @worktile/planet --save
+// or
+$ yarn add @worktile/planet</div></code></pre>
+
+        <h3 id="%E5%9C%A8%E4%B8%BB%E5%BA%94%E7%94%A8%E4%B8%AD%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97" class="docs-header-link">
+          <span header-link="%E5%9C%A8%E4%B8%BB%E5%BA%94%E7%94%A8%E4%B8%AD%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97"></span>
+          在主应用中导入模块
+        </h3>
+      <p>目前 Planet 内置了<code>EmptyComponent</code>和<code>PlanetComponentOutlet</code>组件，如需使用需要导入<code>NgxPlanetModule</code></p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">import</span> <span class="token punctuation">{</span> NgxPlanetModule <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'@worktile/planet'</span><span class="token punctuation">;</span>
+
+@<span class="token function">NgModule</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  imports<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token operator">...</span>
+    NgxPlanetModule
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">AppModule</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></div></code></pre>
+<p>独立应用无需导入<code>NgxPlanetModule</code>，可以单独导入<code>EmptyComponent</code>和<code>PlanetComponentOutlet</code>组件。</p>
+
+        <h3 id="%E5%9C%A8%E4%B8%BB%E5%BA%94%E7%94%A8%E4%B8%AD%E6%B3%A8%E5%86%8C%E5%AD%90%E5%BA%94%E7%94%A8" class="docs-header-link">
+          <span header-link="%E5%9C%A8%E4%B8%BB%E5%BA%94%E7%94%A8%E4%B8%AD%E6%B3%A8%E5%86%8C%E5%AD%90%E5%BA%94%E7%94%A8"></span>
+          在主应用中注册子应用
+        </h3>
+      <p>在主应用的根组件或者模块中，将子应用通过<code>Planet</code>服务注册到微前端框架中。注册时，需配置应用的的名称、应用将要渲染的父节点、路由前缀、入口等信息，运行时，会根据当前的<code>URL</code>匹配到对应的子应用，加载应用的静态资源并启动子应用。</p>
+<p>注册子应用配置如下：</p>
+<pre class="language-ts"><code class="language-ts"><div>@<span class="token function">Component</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token operator">...</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token keyword">class</span> <span class="token class-name">AppComponent</span> <span class="token punctuation">{</span>
+  <span class="token keyword">private</span> planet <span class="token operator">=</span> <span class="token function">inject</span><span class="token punctuation">(</span>Planet<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  
+  <span class="token function">ngOnInit</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">registerApps</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+        <span class="token punctuation">{</span>
+            name<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+            hostParent<span class="token punctuation">:</span> <span class="token string">'#app-host-container'</span><span class="token punctuation">,</span>
+            routerPathPrefix<span class="token punctuation">:</span> <span class="token string">'/app1'</span><span class="token punctuation">,</span>
+            entry<span class="token punctuation">:</span> <span class="token string">"static/app1/index.html"</span>
+            extra<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+                name<span class="token punctuation">:</span> <span class="token string">'应用1'</span><span class="token punctuation">,</span>
+                color<span class="token punctuation">:</span> <span class="token string">'#ffa415'</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">// start monitor route changes</span>
+    <span class="token comment" spellcheck="true">// get apps to active by current path</span>
+    <span class="token comment" spellcheck="true">// load static resources which contains javascript and css</span>
+    <span class="token comment" spellcheck="true">// bootstrap angular sub app module and show it</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>planet<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</div></code></pre>
+<div class="dg-paragraph"><code>planet.start()</code> 函数主要启动监听路由变化，根据当前路由找到需要激活的子应用，加载样式和脚本静态资源，并启动子应用展示在配置的<code>hostParent</code>元素容器内。</div>
+
+        <h3 id="%E5%9C%A8%E4%B8%BB%E5%BA%94%E7%94%A8%E8%B7%AF%E7%94%B1%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%AD%90%E5%BA%94%E7%94%A8%E8%B7%AF%E7%94%B1" class="docs-header-link">
+          <span header-link="%E5%9C%A8%E4%B8%BB%E5%BA%94%E7%94%A8%E8%B7%AF%E7%94%B1%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%AD%90%E5%BA%94%E7%94%A8%E8%B7%AF%E7%94%B1"></span>
+          在主应用路由中添加子应用路由
+        </h3>
+      <p>主应用和子应用都是独立的 Angular 应用，在进入到子应用的路由时如果主应用路由发现不匹配会报错，所以需要在主应用中添加子应用路由配置，指向<code>EmptyComponent</code>。</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token keyword">const</span> routes<span class="token punctuation">:</span> Routes <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token operator">...</span>
+    <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+        component<span class="token punctuation">:</span> EmptyComponent<span class="token punctuation">,</span>
+        children<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                path<span class="token punctuation">:</span> <span class="token string">'**'</span><span class="token punctuation">,</span>
+                component<span class="token punctuation">:</span> EmptyComponent
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        path<span class="token punctuation">:</span> <span class="token string">'app2'</span><span class="token punctuation">,</span>
+        component<span class="token punctuation">:</span> EmptyComponent<span class="token punctuation">,</span>
+        children<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                path<span class="token punctuation">:</span> <span class="token string">'**'</span><span class="token punctuation">,</span>
+                component<span class="token punctuation">:</span> EmptyComponent
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span></div></code></pre>
+
+        <h2 id="%E5%AD%90%E5%BA%94%E7%94%A8" class="docs-header-link">
+          <span header-link="%E5%AD%90%E5%BA%94%E7%94%A8"></span>
+          子应用
+        </h2>
+      <p>首先有一个 Angular 子应用（可以通过 <a target="_blank" href="https://angular.cn/cli">https://angular.cn/cli</a> 快速创建应用）</p>
+
+        <h3 id="%E5%AE%89%E8%A3%85%E5%8C%85" class="docs-header-link">
+          <span header-link="%E5%AE%89%E8%A3%85%E5%8C%85"></span>
+          安装包
+        </h3>
+      <pre class="language-bash"><code class="language-bash"><div>$ <span class="token function">npm</span> i @worktile/planet --save
+// or
+$ yarn add @worktile/planet</div></code></pre>
+
+        <h3 id="%E5%AE%9A%E4%B9%89%E5%AD%90%E5%BA%94%E7%94%A8" class="docs-header-link">
+          <span header-link="%E5%AE%9A%E4%B9%89%E5%AD%90%E5%BA%94%E7%94%A8"></span>
+          定义子应用
+        </h3>
+      <p>在微前端架构下，子应用的启动是由主应用调用的，所以需要修改<code>main.ts</code>入口启动文件，使用<code>defineApplication</code>定义元数据和启动函数。
+模块应用定义子应用：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token function">defineApplication</span><span class="token punctuation">(</span><span class="token string">'app1'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`&lt;app1-root class="app1-root">&lt;/app1-root>`</span></span><span class="token punctuation">,</span>
+    bootstrap<span class="token punctuation">:</span> <span class="token punctuation">(</span>portalApp<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">platformBrowserDynamic</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+            <span class="token punctuation">{</span>
+                provide<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">,</span>
+                useValue<span class="token punctuation">:</span> portalApp
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">bootstrapModule</span><span class="token punctuation">(</span>AppModule<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span>appModule <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> appModule<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+                console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+<p>独立应用定义子应用：(&gt;= 17.0.0)</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token function">defineApplication</span><span class="token punctuation">(</span><span class="token string">'standalone-app'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    template<span class="token punctuation">:</span> <span class="token template-string"><span class="token string">`&lt;standalone-app-root>&lt;/standalone-app-root>`</span></span><span class="token punctuation">,</span>
+    bootstrap<span class="token punctuation">:</span> <span class="token punctuation">(</span>portalApp<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">bootstrapApplication</span><span class="token punctuation">(</span>AppRootComponent<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+            providers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+                <span class="token punctuation">{</span>
+                    provide<span class="token punctuation">:</span> PlanetPortalApplication<span class="token punctuation">,</span>
+                    useValue<span class="token punctuation">:</span> portalApp
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">]</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span>error <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+            console<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span>error<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></div></code></pre>
+<div class="dg-paragraph"><alert>注意：template 配置需要和子应用根组件的选择器保持一致，providers 为子应用的根供应商，添加 PlanetPortalApplication 为了方便在子应用中成功注入 PlanetPortalApplication 调用主应用的函数。</alert></div>
+
+        <h3 id="%E5%8E%BB%E9%99%A4-polyfills" class="docs-header-link">
+          <span header-link="%E5%8E%BB%E9%99%A4-polyfills"></span>
+          去除 polyfills
+        </h3>
+      <p>因为主应用已经加载了 <code>polyfills.ts</code>中的<code>Zone.js</code>了，无特殊情况子应用可以彻底去掉<code>angular.json</code>中的
+<code>polyfills&quot;: [&quot;zone.js&quot;]</code>。</p>
+
+        <h3 id="%E4%BF%AE%E6%94%B9%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE" class="docs-header-link">
+          <span header-link="%E4%BF%AE%E6%94%B9%E8%B7%AF%E7%94%B1%E9%85%8D%E7%BD%AE"></span>
+          修改路由配置
+        </h3>
+      <p>每个子应用的根路由需要和主应用中注册的<code>routerPathPrefix</code>保持一致。
+通过设置一个<code>path</code>为<code>app1</code>的虚拟根路由：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token punctuation">{</span>
+  path<span class="token punctuation">:</span> <span class="token string">'app1'</span><span class="token punctuation">,</span>
+  children<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      path<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+      component<span class="token punctuation">:</span> HomeComponent
+    <span class="token punctuation">}</span>
+ <span class="token punctuation">]</span>
+<span class="token punctuation">}</span></div></code></pre>
+<p>或者全局提供<code>APP_BASE_HREF</code>为<code>/app1</code>：</p>
+<pre class="language-ts"><code class="language-ts"><div><span class="token punctuation">{</span>
+  provide<span class="token punctuation">:</span> APP_BASE_HREF<span class="token punctuation">,</span>
+  useValue<span class="token punctuation">:</span> <span class="token string">'/app1'</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span></div></code></pre>
+<div class="dg-paragraph"><alert>此种方式设置后在子产品内部通过路由可能无法跳转到其他应用。</alert></div>
